@@ -2,7 +2,7 @@
     <div>
       <v-ons-page>
         <v-ons-toolbar>
-            <div class="center">Playlist - {{playlist_id}}</div>
+            <div class="center">Room Code: {{playlist_id}}</div>
             <div class="right">
                 <v-ons-button modifier="quiet" style="color: red" @click="leave">Leave</v-ons-button>
             </div>
@@ -16,7 +16,7 @@
         <v-ons-list>
           <v-ons-list-header>Playlist</v-ons-list-header>
           <div v-bind:key="song.id" v-for="(song, index) in songs">
-            <Song v-bind:song="song" v-bind:index="index" v-on:del-song="$emit('del-song',index)" />
+            <Song v-bind:song="song" v-bind:index="index" v-on:plus-minus="$emit('plus-minus',$event)" />
           </div>
            <v-ons-list-item></v-ons-list-item>
         </v-ons-list>

@@ -26,17 +26,11 @@ export default {
     },
     methods: {
         handle_count(index,dir){
-            if(dir == 'up'){
-                this.song.count ++;
-            }else{
-                this.song.count --;
+            var obj = {
+                index: index,
+                dir: dir
             }
-            if(this.song.count <= 0){
-                this.delete_song(index);
-            }
-        },
-        delete_song(index){
-            this.$emit('del-song', index);
+            this.$emit('plus-minus', obj);
         }
     }
 }

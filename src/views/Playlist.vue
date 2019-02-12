@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-ons-page>
-    <Body v-bind:songs="songs" v-bind:playlist_id="this.playlist_id" v-on:del-song="delete_song"/>
+    <Body v-bind:songs="songs" v-bind:playlist_id="this.playlist_id" v-on:plus-minus="handle_plus_minus"/>
     </v-ons-page>
     <Footer v-on:add-song="add_song"/>
   </div>
@@ -10,6 +10,7 @@
 <script>
 import Body from '@/components/Playlist/Body.vue'
 import Footer from '@/components/Playlist/Footer.vue'
+import io from "socket.io-client"
 
 export default {
   name: 'app',
@@ -18,46 +19,39 @@ export default {
     Footer
   },
   methods: {
-    delete_song(index){
-      this.songs.splice(index,1)
-    },
     add_song(obj){
-      this.songs = [...this.songs,obj]
+      this.socket.emit('new_song', obj)
+    },
+    handle_plus_minus(obj){
+      this.socket.emit('plus_minus', obj)
     }
   },
   created(){
     this.playlist_id = this.$route.params.id;
+    this.socket = io.connect('http://localhost:5000', {query: 'room='+this.playlist_id});
+    this.socket.on('fresh_list', (data) => {
+        this.songs = data;
+    });
+  },
+  mounted(){
+    this.socket.on('new_song', (song)=> {
+      this.songs = [...this.songs,song]
+    });
+
+    this.socket.on('plus_minus', (data)=> {
+      this.songs = data;
+    });
+
+    this.socket.on('delete_song', (index)=> {
+      this.songs.splice(index,1)
+    });
   },
   data(){
     return {
+      socket: {},
       playlist_id: '',
       state: 'initial',
-      songs: [
-        {
-          id: 1,
-          song: 'La Macarena',
-          artist: 'Los Del Rio',
-          count: 18
-        },
-        {
-          id: 2,
-          song: 'Never gonna give you up',
-          artist: 'Rick Astley',
-          count: 16
-        },
-        {
-          id: 3,
-          song: 'Who let the dogs out',
-          artist: 'Baha Men',
-          count: 12
-        },
-        {
-          id: 4,
-          song: 'Back in Black',
-          artist: 'AC/DC',
-          count: 8
-        }
-      ]
+      songs: []
     }
   }
 }
