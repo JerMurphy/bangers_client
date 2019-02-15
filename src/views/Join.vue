@@ -2,6 +2,9 @@
   <div class="home">
     <v-ons-page>
       <Header/>
+      <br/>
+      <br/>
+      <h3> Welcome <h1>{{user_data.name}}</h1></h3>
       <Body/>
     </v-ons-page>
   </div>
@@ -20,8 +23,13 @@ export default {
   },
   data(){
     return {
-      playlist_id: ''
+      playlist_id: '',
+      user_data: Object
+
     }
+  },
+  created(){
+    this.user_data = JSON.parse(this.$route.query.user_data);
   }
 }
 </script>

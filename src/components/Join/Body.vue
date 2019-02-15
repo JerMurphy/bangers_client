@@ -2,7 +2,7 @@
     <div>
         <div class="content">
             <h4>Join a Party</h4>
-            <b-form-input v-model="playlist_id" type="text" placeholder="artist.."></b-form-input>
+            <b-form-input v-model="playlist_id" type="text" placeholder="Enter party code here..."></b-form-input>
             <b-button  class="" variant="outline-danger" @click="goToPlaylist">Join</b-button>
         </div>
     </div>

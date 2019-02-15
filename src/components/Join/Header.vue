@@ -15,6 +15,10 @@ export default {
   name: 'Header',
   components: {
         
+  },
+  props: {
+    picture: String,
+    name: String
   }
 }
 </script>
