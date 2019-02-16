@@ -2,8 +2,8 @@
     <div>
         <v-ons-toolbar>
             <div class="center">Bangers</div>
-            <div class="right">
-                <v-ons-toolbar-button icon="ion-navicon, material: md-menu" class="menu"></v-ons-toolbar-button>
+            <div class="right" style="margin-right:1%">
+               <img :src="picture" height="30px" alt="Avatar"> {{name}}
             </div>
         </v-ons-toolbar>
     </div>
@@ -32,7 +32,10 @@ export default {
   width: 50px;
 }
 .menu{
-    color: #FF5252;
+    color: green;
+}
+img {
+  border-radius: 50%;
 }
   
 </style>

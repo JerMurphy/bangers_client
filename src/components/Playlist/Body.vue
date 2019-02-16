@@ -4,7 +4,7 @@
         <v-ons-toolbar>
             <div class="center">Room Code: {{playlist_id}}</div>
             <div class="right">
-                <v-ons-button modifier="quiet" style="color: red" @click="leave">Leave</v-ons-button>
+                <v-ons-button modifier="quiet" style="color: green" @click="leave">Leave</v-ons-button>
             </div>
         </v-ons-toolbar>
         
@@ -38,7 +38,7 @@ export default {
         type: Array,
         default: () => []
     },
-    playlist_id: ''
+    playlist_id: String
   },
   methods: {
     reloadSongs(done){

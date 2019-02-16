@@ -1,11 +1,10 @@
 <template>
   <div class="home">
     <v-ons-page>
-      <Header/>
+      <Header v-bind:name="user_data.first_name" v-bind:picture="user_data.picture"/>
       <br/>
       <br/>
-      <h3> Welcome <h1>{{user_data.name}}</h1></h3>
-      <Body/>
+      <Body v-bind:user="user_data"/>
     </v-ons-page>
   </div>
 </template>
@@ -23,13 +22,14 @@ export default {
   },
   data(){
     return {
-      playlist_id: '',
+      playlist_id: String,
       user_data: Object
 
     }
   },
   created(){
     this.user_data = JSON.parse(this.$route.query.user_data);
+    this.user_data.first_name = this.user_data.name.split(' ')[0]
   }
 }
 </script>

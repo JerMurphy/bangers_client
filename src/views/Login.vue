@@ -1,16 +1,13 @@
 <template>
   <div class="login">
     <v-ons-page>
-      <h3> -- Welcome to --</h3>
       <h1> BANGERS </h1>
-      <h5> The best democratic party playlist App </h5>
-      <button @click="login()"> Log in with Spotify </button>
+      <b-button  class="" variant="success" @click="login()">Log in with <img src="@/assets/spotify-logo.png" height="30px"></b-button>
     </v-ons-page>
   </div>
 </template>
 
 <script>
-
 //import Header from '@/components/Join/Header.vue'
 import axios from 'axios';
 
@@ -37,3 +34,8 @@ export default {
 
 }
 </script>
+
+<style scoped>
+
+</style>
+

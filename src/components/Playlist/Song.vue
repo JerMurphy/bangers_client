@@ -2,7 +2,7 @@
     <div>
        <v-ons-list-item>
         <div class="left">
-                <img class="list-item__thumbnail" src="@/assets/music_placeholder.png">
+                <img class="list-item__thumbnail" :src="song.picture">
             </div>
             <div class="center">
                 <p class="list-item__title">{{song.song}}</p>
