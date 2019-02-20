@@ -21,7 +21,7 @@
                         <p class="list-item__subtitle">{{suggestion.artist}}</p>
                     </div>
                     <div class="right">
-                      <button> add </button>
+                      <button @click="add_suggestion(suggestion)"> add </button>
                     </div>
                 </v-ons-list-item>
               </div>
@@ -61,11 +61,17 @@ export default {
       //this.socket.emit('new_song', obj)
     },
     handle_plus_minus(obj){
+      obj.code = this.playlist_id;
       this.socket.emit('plus_minus', obj)
     },
     hideModal(){
       this.modalVisible = false;
     },
+    add_suggestion(obj){
+      obj.code = this.playlist_id;
+      this.socket.emit('new_song', obj);
+      this.modalVisible = false;
+    }
   },
   created(){
     //initializing data

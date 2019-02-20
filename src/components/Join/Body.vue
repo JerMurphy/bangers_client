@@ -4,11 +4,17 @@
             <h4>Join a Party</h4>
             <b-form-input class="code_input" v-model="playlist_id" type="text" placeholder="Enter party code here..."></b-form-input>
             <b-button  class="" variant="success" @click="goToPlaylist">Join</b-button>
+            <br/>
+            <br/>
+            <h4> No Party to join? Create one:</h4>
+            <b-form-input class="code_input" v-model="create_name" type="text" placeholder="Name your playlist"></b-form-input>
+            <b-button  class="" variant="success" @click="create_room">Create</b-button>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   name: 'Header',
@@ -20,15 +26,28 @@ export default {
   },
   data(){
       return {
-          playlist_id: ""
+          playlist_id: "",
+          create_name: ""
       }
   },
   methods:{
-      goToPlaylist(){
-        if(this.playlist_id){
-            this.$router.push({ name: 'playlist', params: { id: this.playlist_id, user: this.user}});
-        }
+    goToPlaylist(){
+      if(this.playlist_id){
+          this.$router.push({ name: 'playlist', params: { id: this.playlist_id, user: this.user}});
       }
+    },
+    create_room(){
+      var self = this;
+      if(this.create_name){
+        var obj = {
+          name: this.create_name,
+          creator_id: this.user.name
+        }
+        axios.post('http://localhost:5000/create_party',obj).then(function(resp){
+           self.$router.push({ name: 'playlist', params: { id: resp.data, user: self.user}});
+        })
+      }
+    }
   }
 }
 </script>
