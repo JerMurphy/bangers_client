@@ -32,7 +32,7 @@ export default {
   },
   methods:{
     goToPlaylist(){
-      if(this.playlist_id){
+      if(this.playlist_id){//might want to add a check to make sure playlist exist before navigating
           this.$router.push({ name: 'playlist', params: { id: this.playlist_id, user: this.user}});
       }
     },
@@ -41,7 +41,7 @@ export default {
       if(this.create_name){
         var obj = {
           name: this.create_name,
-          creator_id: this.user.name
+          creator_id: this.user.uid
         }
         axios.post('http://localhost:5000/create_party',obj).then(function(resp){
            self.$router.push({ name: 'playlist', params: { id: resp.data, user: self.user}});

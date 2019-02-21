@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-ons-page>
-    <Body v-bind:songs="songs" v-bind:playlist_id="playlist_id" v-on:plus-minus="handle_plus_minus"/>
+    <Body v-bind:songs="playlist.playlist" v-bind:playlist_id="playlist_id" v-on:plus-minus="handle_plus_minus"/>
     <Footer v-bind:user="user" v-on:add-song="add_song"/>
 
     <!-- modal -->
@@ -83,18 +83,18 @@ export default {
   mounted(){
     //socket listeners
     this.socket.on('fresh_list', (data) => {
-        this.songs = data;
+        this.playlist = data;
     });
     this.socket.on('new_song', (song)=> {
-      this.songs = [...this.songs,song]
+      this.playlist.playlist.push(song)
     });
 
     this.socket.on('plus_minus', (data)=> {
-      this.songs = data;
+      this.playlist.playlist = data;
     });
 
     this.socket.on('delete_song', (index)=> {
-      this.songs.splice(index,1)
+      this.playlist.playlist.splice(index,1)
     });
   },
   data(){
@@ -103,7 +103,7 @@ export default {
       playlist_id: "",
       user: {},
       state: 'initial',
-      songs: [],
+      playlist: {},
       suggestions: [],
       modalVisible: false,
     }
