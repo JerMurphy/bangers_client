@@ -3,6 +3,11 @@
     <v-ons-page>
     <Body v-bind:songs="playlist.playlist" v-bind:playlist_id="playlist_id" v-on:plus-minus="handle_plus_minus"/>
     <Footer v-bind:user="user" v-on:add-song="add_song"/>
+    <v-ons-bottom-toolbar v-if="playlist.createdBy == user.id">
+        <!-- will likely change later -->
+        <v-ons-toolbar-button v-if="!isPlaying &&  playlist.playlist[0]" icon="ion-ios-play" @click="play_song()"></v-ons-toolbar-button>
+        <v-ons-toolbar-button  v-if="isPlaying" icon="ion-ios-pause" @click="pause_song()"></v-ons-toolbar-button>
+    </v-ons-bottom-toolbar>
 
     <!-- modal -->
     <v-ons-modal :visible="modalVisible">
@@ -71,11 +76,37 @@ export default {
       obj.code = this.playlist_id;
       this.socket.emit('new_song', obj);
       this.modalVisible = false;
+    },
+    play_song(){
+      var self = this;
+      var obj = {
+        ua: this.user.access_token,
+        device_id: this.device.id,
+        uri: this.playlist.playlist[0].uri
+      }
+      axios.post('http://localhost:5000/play_song', obj).then(function(){
+        self.isPlaying = true;
+      }).catch(function(err){
+        alert(err.message)
+      })
+    },
+    pause_song(){
+      var self = this;
+      var obj = {
+        ua: this.user.access_token,
+        device_id: this.device.id
+      }
+      axios.post('http://localhost:5000/pause_song', obj).then(function(){
+        self.isPlaying = false;
+      }).catch(function(err){
+        alert(err.message)
+      })
     }
   },
   created(){
     //initializing data
     this.playlist_id = this.$route.params.id;
+    this.device = this.$route.params.device;
     //confirmed user here..
     this.user = this.$route.params.user;
     this.socket = io.connect('http://localhost:5000', {query: 'room='+this.playlist_id});
@@ -106,6 +137,8 @@ export default {
       playlist: {},
       suggestions: [],
       modalVisible: false,
+      device: {},
+      isPlaying: false
     }
   }
 }
